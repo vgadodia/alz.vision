@@ -755,11 +755,11 @@ ul.compatible-list li:hover {
   }
 }
 
-.content-text .content-small-card {
+.content-text, .content-small-card, .content-medium-card {
   margin-bottom: 10px;
 }
 
-.content-small-card {
+.content-small-card, .content-medium-card {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -771,7 +771,7 @@ ul.compatible-list li:hover {
   background: #fff;
 }
 
-.content-small-card .card-icon {
+.content-small-card, .card-icon, .content-medium-card {
   font-size: 32px;
   width: 100px;
   color: #258aff;
@@ -779,30 +779,37 @@ ul.compatible-list li:hover {
   margin-top: 4px;
 }
 
-.content-small-card .card-icon i {
+.content-small-card, .card-icon, .content-medium-card i {
   font-weight: 400;
 }
 
-.content-small-card .card-content {
+.content-small-card, .card-content {
   -webkit-box-flex: calc(100% - 100px);
       -ms-flex: calc(100% - 100px);
           flex: calc(100% - 100px);
   max-width: calc(100% - 100px);
 }
 
-.content-small-card .card-content h5 {
+.content-small-card, .card-content, .content-medium-card h5 {
   font-weight: 600;
   letter-spacing: -1px;
   line-height: 32px;
 }
 
-.content-small-card .card-content p {
+.content-small-card, .card-content, .content-medium-card p {
   font-size: 16px;
   font-weight: 400;
   line-height: 28px;
   color: #666666;
   margin-bottom: 0;
   padding-top: 7px;
+}
+
+.content-medium-card {
+  width: 400px;
+  height: 400px;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
 .content-img {
