@@ -23,11 +23,17 @@ with open("clienturl.txt", "r") as x:
     client = PyMongo(app)
     db = client.db.users
     EMAIL = ""
+    loginStatus = ""
+    logoutStatus = "hidden"
+    tryitoutStatus = ""
 
 # routes
 @app.route('/')
 def index():
-    return render_template('index.html')
+    global loginStatus
+    global logoutStatus
+    global tryitoutStatus
+    return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus)
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -41,7 +47,14 @@ def login():
         else:
             global EMAIL 
             EMAIL = x["email"]
-            return redirect('/')
+
+            global loginStatus
+            global logoutStatus
+            global tryitoutStatus
+            loginStatus = "hidden"
+            logoutStatus = ""
+            tryitoutStatus = "hidden"
+            return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus)
     return render_template('login.html', error = "") 
 
 @app.route('/register', methods = ['POST', 'GET'])
@@ -61,6 +74,18 @@ def register():
         else: 
             render_template('register.html', error = "An account under that email already exists")
     return render_template('register.html', error = "") 
+
+@app.route('/logout')
+def logout():
+    global EMAIL
+    EMAIL = ""
+    global loginStatus
+    global logoutStatus
+    global tryitoutStatus
+    loginStatus = ""
+    logoutStatus = "hidden"
+    tryitoutStatus = ""
+    return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus)
 
 @app.route('/upload')
 def upload():

@@ -39,15 +39,9 @@
 
                             <div class="col-sm-7 col-lg-3 col-xl-3 offset-xl-1 d-none d-sm-block order-lg-3">
                                 <div class="header-btns">
-                                    <div class="btn-1 btn-outlined">
-                                        <a href="/login">Login</a>
-                                    </div>
-                                    <div class="btn-2">
-                                        <a href="/register">Sign Up</a>
-                                    </div>
-                                    <div class="btn-2" hidden>
-                                        <a href="/logout">Log Out</a>
-                                    </div>
+                                    <div class="btn-1 btn-outlined" {{ loginStatus }}><a href="/login">Login</a></div>
+                                    <div class="btn-2" {{ loginStatus }}><a href="/register">Sign Up</a></div>
+                                    <div class="btn-2" {{ logoutStatus }}><a href="/logout">Log Out</a></div>
                                 </div>
                             </div>
             
@@ -102,12 +96,12 @@
                     </div>
                     <div class="col-lg-4 pt-lg-5">
                         <div class="hero-btn">
-                            <a href="/register" class="btn btn--primary btn-height-60" style="letter-spacing: 0.5px;">Try it out!</a>
+                            <a href="/register" class="btn btn--primary btn-height-60" style="letter-spacing: 0.5px;" {{ tryitoutStatus }}>Try it out!</a>
                         </div>
                     </div>
                     <div class="col-lg-12">
                         <div class="hero-img">
-                            <img src="image/laptop-image.png" alt="">
+                            <img src="{{ url_for('static', filename='image/laptop-image.png') }}" alt="">
                         </div>
                     </div>
                 </div>
