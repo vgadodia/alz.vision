@@ -89,6 +89,9 @@ def logout():
 
 @app.route('/upload')
 def upload():
+    global EMAIL
+    if EMAIL == "":
+        return render_template('uploadBlur.html', errorMessage="")
     return render_template('upload.html', errorMessage="") 
 
 @app.route('/upload', methods = ['GET', 'POST'])
@@ -119,6 +122,9 @@ def file(filename):
 @app.route('/redescribe')
 def redescribe():
     # print(redescription)
+    global EMAIL
+    if EMAIL == "":
+        return render_template("redescribeBlur.html")
     image = db.find_one_or_404({"email": EMAIL})["memories"]
     for memory in image:
         if len(memory["new sentences"]) == 0:
@@ -178,6 +184,9 @@ def getredescription():
 
 @app.route('/analytics')
 def analytics():
+    global EMAIL
+    if EMAIL == "":
+        return render_template("analyticsBlur.html")
     return render_template('analytics.html')
 
 @app.route('/contact')
