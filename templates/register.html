@@ -128,15 +128,14 @@
                                             <h5 class="in_box" id="login_title">Sign Up</h5>
                                             <br>
         
-                                            <form>
-                                                <input type="text" placeholder="Full Name" class="in_box">
+                                            <form action="/register" method="POST" enctype="multipart/form-data">
+                                                <input type="text" placeholder="Full Name" class="in_box" name = "name">
                                                 <br><br>
-                                                <input type="email" placeholder="Email Address" class="in_box">
+                                                <input type="email" placeholder="Email Address" class="in_box" name = "email">
                                                 <br><br>
-                                                <input type="password" placeholder="Password" class="in_box">
+                                                <input type="password" placeholder="Password" class="in_box" name = "password">
                                                 <br>
-                                                <p id="error_check" hidden>Your username or password is invalid. Please try
-                                                    again.</p>
+                                                <p id="error_check">{{ error }}</p>
                                                 <br>
                                                 <button type="submit" class="in_box" id="submit_button">Create an
                                                     Account!</button>

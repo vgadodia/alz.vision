@@ -15,29 +15,52 @@ from werkzeug.utils import secure_filename
 from datetime import datetime
 import os
 import pathlib
+import hashlib
 
-
-
-app = Flask(__name__)
-
-
-NAME = "GenericUser"
+with open("clienturl.txt", "r") as x:
+    app = Flask(__name__)
+    app.config["MONGO_URI"] = x.read()
+    client = PyMongo(app)
+    db = client.db.users
+    NAME = ""
 
 # routes
 @app.route('/')
 def index():
-    '''
-    TODO: Some sort of login system. For now, I'll have it default.
-    '''
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login', methods = ['GET', 'POST'])
 def login():
-    return render_template('login.html') 
+    if request.method == "POST":
+        username = request.form['email']
+        password = request.form['password'].encode('utf-8')
+        x = db.find_one(
+            {"email": username, "password": hashlib.sha224(password).hexdigest()})
+        if x == None:
+            return render_template('login.html', error = "Invalid Credentials. Try again or sign up!")
+        else:
+            global NAME 
+            NAME = x["name"]
+            return render_template('index.html')
+    return render_template('login.html', error = "") 
 
-@app.route('/register')
+@app.route('/register', methods = ['POST', 'GET'])
 def register():
-    return render_template('register.html') 
+    if request.method == "POST":
+        name = request.form['name']
+        username = request.form['email']
+        password = request.form['password'].encode('utf-8')
+        print(name, username, password)
+        x = db.find_one({"email": username})
+        if x == None:
+            user = {"name": name, "password": hashlib.sha224(password).hexdigest(), "email": username, "memories": []}
+            x = db.insert_one(user)
+            global NAME
+            NAME = name
+            return render_template('index.html')
+        else: 
+            render_template('register.html', error = "An account under that email already exists")
+    return render_template('register.html', error = "") 
 
 @app.route('/upload')
 def upload():
