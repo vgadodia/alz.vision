@@ -4,11 +4,11 @@ I'm trying to use this: https://flask-pymongo.readthedocs.io/en/latest/
 
 import pandas as pd
 from flask import Flask, jsonify, request, send_file, render_template, redirect, url_for
-import mainModel
+import dataAnalysis
 import numpy as np
 import matplotlib.pyplot as plt 
 import sklearn
-import main
+from similarity import main
 from flask_pymongo import PyMongo
 import pymongo
 from werkzeug.utils import secure_filename

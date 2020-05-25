@@ -1,4 +1,4 @@
-import text_similarity
+from similarity import text_similarity
 
 def similarity_score(sentence1, sentence2):
     percentage = text_similarity.token_set_ratio(sentence1, sentence2)

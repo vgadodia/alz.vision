@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 import sys
 import functools
 
-from string_processing import StringProcessor
+from similarity.string_processing import StringProcessor
 
 
 PY3 = sys.version_info[0] == 3
