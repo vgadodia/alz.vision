@@ -140,7 +140,7 @@
                                 <!-- <p>We designed and tested prototypes that helped identify pain points in the account
                                     creation process. Together, we shaped the new standard.</p> -->
                                 <form action="/upload" method="POST" enctype="multipart/form-data">
-                                    <div class="container" style="margin-bottom:-100px;margin-top: -100px;">
+                                    <div class="container" style="margin-bottom:-120px;margin-top: -100px;">
                                         <div class="content" style="margin-top:-50px;margin-bottom:-50px;">
                                             <div class="box">
                                                 <input type="file" name="memory" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple />
@@ -151,13 +151,14 @@
                                                     <div>
                                                         <input id="input" type="text" name="description" placeholder="I played with my dog.">
                                                     </div>
+                                                    <p class="extra-info-text" style="font-weight:500;font-size:15px;color:red;">{{ warningMessage }}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="cta-btn">
-                                        <button type="submit" class="btn btn-outlined--white btn-with-icon btn-height-60">Submit</button>
+                                        <button type="submit" class="btn btn-outlined--white btn-with-icon btn-height-60">Upload</button>
                                         <!-- <p class="extra-info-text">No credit card required</p> -->
                                     </div>
                                 </form>
