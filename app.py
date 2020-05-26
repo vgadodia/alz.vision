@@ -197,7 +197,7 @@ def analytics():
             newsent = i["new sentences"]
             for j in newsent:
                 sco.append(j["score"])
-                tim.append(j["time"] - i["time"])
+                tim.append(round((j["time"] - i["time"]).seconds/60))
             scores.append(sco)
             times.append(tim)
         jso = {"Scores": scores, "Times": times}

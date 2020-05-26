@@ -1,6 +1,7 @@
 from flask_pymongo import PyMongo
 from flask import Flask, jsonify, request, send_file, render_template, redirect, url_for
 import pandas as pd
+# import dat
 
 
 with open("clienturl.txt", "r") as x:
@@ -22,7 +23,7 @@ def index():
         newsent = i["new sentences"]
         for j in newsent:
             sco.append(j["score"])
-            tim.append(j["time"] - i["time"])
+            tim.append(round((j["time"] - i["time"]).seconds/60))
         scores.append(sco)
         times.append(tim)
     jso = {"Scores" : scores, "Times" : times}
