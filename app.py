@@ -26,6 +26,8 @@ with open("clienturl.txt", "r") as x:
     loginStatus = ""
     logoutStatus = "hidden"
     tryitoutStatus = ""
+    welcomeStatus = "hidden"
+    welcomeName = ""
 
 # routes
 @app.route('/')
@@ -33,7 +35,9 @@ def index():
     global loginStatus
     global logoutStatus
     global tryitoutStatus
-    return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus)
+    global welcomeStatus
+    global welcomeName
+    return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus, welcomeStatus=welcomeStatus, welcomeName=welcomeName)
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -47,15 +51,20 @@ def login():
         else:
             global EMAIL 
             EMAIL = x["email"]
-            print(x['name'])
+            print(x['name'].split())
 
             global loginStatus
             global logoutStatus
             global tryitoutStatus
+            global welcomeStatus
+            global welcomeName
             loginStatus = "hidden"
             logoutStatus = ""
             tryitoutStatus = "hidden"
-            return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus)
+            welcomeStatus = ""
+            welcomeName = x['name'].split()
+            welcomeName = welcomeName[0]
+            return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus, welcomeStatus=welcomeStatus, welcomeName=welcomeName)
     return render_template('login.html', error = "") 
 
 @app.route('/register', methods = ['POST', 'GET'])
@@ -71,7 +80,19 @@ def register():
             x = db.insert_one(user)
             global EMAIL
             EMAIL = username
-            return redirect('/')
+
+            global loginStatus
+            global logoutStatus
+            global tryitoutStatus
+            global welcomeStatus
+            global welcomeName
+            loginStatus = "hidden"
+            logoutStatus = ""
+            tryitoutStatus = "hidden"
+            welcomeStatus = ""
+            welcomeName = name.split()
+            welcomeName = welcomeName[0]
+            return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus, welcomeStatus=welcomeStatus, welcomeName=welcomeName)
         else: 
             return render_template('register.html', error = "An account under that email already exists")
     return render_template('register.html', error = "") 
@@ -83,10 +104,13 @@ def logout():
     global loginStatus
     global logoutStatus
     global tryitoutStatus
+    global welcomeStatus
+    global welcomeName
     loginStatus = ""
     logoutStatus = "hidden"
     tryitoutStatus = ""
-    return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus)
+    welcomeStatus = "hidden"
+    return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus, welcomeStatus=welcomeStatus, welcomeName=welcomeName)
 
 @app.route('/upload')
 def upload():
