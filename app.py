@@ -47,6 +47,7 @@ def login():
         else:
             global EMAIL 
             EMAIL = x["email"]
+            print(x['name'])
 
             global loginStatus
             global logoutStatus
@@ -72,7 +73,7 @@ def register():
             EMAIL = username
             return redirect('/')
         else: 
-            render_template('register.html', error = "An account under that email already exists")
+            return render_template('register.html', error = "An account under that email already exists")
     return render_template('register.html', error = "") 
 
 @app.route('/logout')
@@ -104,6 +105,7 @@ def getupload():
         elif description is "":
             return render_template('upload.html', errorMessage="You must write a description")
         else:
+            print(description)
             print(EMAIL)
             x = db.find_one_or_404({"email": EMAIL})
             client.save_file(EMAIL + memory.filename, memory)
@@ -152,7 +154,7 @@ def getredescription():
             return render_template('noRedescriptions.html')
             # return render_template('redescribe.html', errorMessage="You must write a description")
         else:
-            # print(redescription)
+            print(redescription)
             user = db.find_one_or_404({"email": EMAIL})["memories"]
             for memory in user:
                 if len(memory["new sentences"]) == 0:
