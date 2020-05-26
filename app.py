@@ -51,7 +51,6 @@ def login():
         else:
             global EMAIL 
             EMAIL = x["email"]
-            print(x['name'].split())
 
             global loginStatus
             global logoutStatus
@@ -110,6 +109,7 @@ def logout():
     logoutStatus = "hidden"
     tryitoutStatus = ""
     welcomeStatus = "hidden"
+    print("Logging out")
     return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus, welcomeStatus=welcomeStatus, welcomeName=welcomeName)
 
 @app.route('/upload')
