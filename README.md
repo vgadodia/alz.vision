@@ -36,8 +36,5 @@ For both the outlier detection and the sentence similarity scores, we tested a f
 First, from a non-technical standpoint, our team learned a lot about Alzheimer's. We spent two weeks researching the disease to learn more about how it is diagnose and listening to real user stories. From a technical standpoint, two of our teammates learned how to use React Native and all our teammates learned MongoDB Atlas. 
 
 ### What's next for Alz.vision
-We hope to be able to put the app together to form a final product.t our front ends could use.
-
-### What's next
 We hope to share our app with local doctors to get their feedback on our game. We will adjust accordingly and then continue the design process to create a finished product. Then, we will pitch this product to local hospitals and clinics and hopefully collaborate with them to make this product a tool for all physicians to diagnose Dementia and Alzheimer's better.
 We need to finish our MVP, particularly the website. We plan to use SQLite instead of MongoDB. 
