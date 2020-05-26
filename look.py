@@ -19,11 +19,11 @@ def index():
     times = []
     for i in user:
         print(i)
-        scores.append(i["name"])
         try:
             times.append(i["email"])
+            scores.append(i["name"])
         except:
-            times.append("")
+            pass
     jso = {"Name": scores, "Email": times}
     df = pd.DataFrame(jso, columns=["Name", "Email"])
     df.to_csv("users.csv")
