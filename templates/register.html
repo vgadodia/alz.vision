@@ -64,6 +64,24 @@
                 margin-left:40px;
             }
         }
+
+        @media only screen and (max-width: 600px) {
+            #loginHamburger {
+                visibility: show;
+            }
+            #registerHamburger {
+                visibility: show;
+            }
+        }
+        
+        @media only screen and (min-width: 600px) {
+            #loginHamburger {
+                display: none;
+            }
+            #registerHamburger {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -103,6 +121,10 @@
                                 <li class="menu-item"><a href="/analytics">Analytics</a></li>
 
                                 <li class="menu-item"><a href="/contact">Contact</a></li>
+
+                                <li id="loginHamburger"><a class="header-btns btn-1 btn-outlined" href="/login"><strong>Login</strong></a></li>
+
+                                <li id="registerHamburger"><a class="header-btns btn-2" href="/register" style="background-color:#258aff;color:white;"><strong>Sign up</strong></a></li>
 
                             </ul>
                         </div>

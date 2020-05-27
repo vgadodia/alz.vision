@@ -57,6 +57,24 @@
                 width: 250px;
             }
         } 
+
+        @media only screen and (max-width: 600px) {
+            #loginHamburger {
+                visibility: show;
+            }
+            #registerHamburger {
+                visibility: show;
+            }
+        }
+        
+        @media only screen and (min-width: 600px) {
+            #loginHamburger {
+                display: none;
+            }
+            #registerHamburger {
+                display: none;
+            }
+        }
     </style>
 
 </head>
@@ -102,6 +120,8 @@
                                         <li class="menu-item"><a href="/analytics">Analytics</a></li>
 
                                         <li class="menu-item"><a href="/contact">Contact</a></li>
+
+                                        <li id="registerHamburger"><a class="header-btns btn-2" href="/logout" style="background-color:#258aff;color:white;"><strong>Logout</strong></a></li>
 
                                         </ul>
                                 </div>

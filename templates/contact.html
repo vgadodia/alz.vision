@@ -21,6 +21,26 @@
     <!-- <link rel="stylesheet" href="./css/normalize.css"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/component.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/demo.css') }}"/>
+
+    <style>
+        @media only screen and (max-width: 600px) {
+            #loginHamburger {
+                visibility: show;
+            }
+            #registerHamburger {
+                visibility: show;
+            }
+        }
+        
+        @media only screen and (min-width: 600px) {
+            #loginHamburger {
+                display: none;
+            }
+            #registerHamburger {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
