@@ -9,7 +9,7 @@ with open("clienturl.txt", "r") as x:
     app.config["MONGO_URI"] = x.read()
     client = PyMongo(app)
     db = client.db.users
-    EMAIL = "name@name.com"
+    EMAIL = "a@com"
 
 
 @app.route('/')
@@ -33,4 +33,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5050, debug=True)
