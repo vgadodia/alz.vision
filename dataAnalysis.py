@@ -57,11 +57,10 @@ class LinearOutlier():
         plt.savefig(pic_IObytes,  format='png')
         pic_IObytes.seek(0)
         pic_hash = base64.b64encode(pic_IObytes.read())
-        lmao=str(pic_hash)
-        lmao=lmao[2:]
-        lmao=lmao[:-1]
-        return lmao
-        
+        hold=str(pic_hash)
+        hold = hold[2:]
+        hold = hold[:-1]
+        return hold
 
     def detect_anomalies(self):
         from sklearn.ensemble import IsolationForest
