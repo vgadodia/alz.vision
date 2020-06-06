@@ -133,8 +133,12 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-8">
                                 <div class="section-title">
-                                    <h2>Analytics</h2>
-                                    <p>Graphs coming soon! Continue Uploading and Describing Memories, and You'll Find Your Graphs Here!</p>
+                                    <h2 style="margin-top: -50px;">Analytics</h2>
+                                    <p {{ displayStatus }}>Graphs coming soon! Continue Uploading and Describing Memories, and You'll Find Your Graphs Here!</p>
+                                    <!-- <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                                    <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                                    <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                                    <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png"> -->
                                 </div>
                             </div>
                         </div>
@@ -144,6 +148,87 @@
                         </div> -->
                     </div>
                 </section>
+
+                        <!-- Cta Section -->
+        <section class="cta-section" style="margin-top:-100px;margin-bottom:100px;">
+            <div class="container" >
+                <div class="cta-inner-wrapper">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-7 col-lg-8" >
+                            <div class="cta-content">
+                                <span class="title-small-text">You're overall memory score is</span>
+                                <h2>79.2%</h2>
+                                <p>Keep scrolling to see detailled overview of your results!
+                                </p>
+                                <div class="container" style="margin-bottom:-120px;margin-top: -100px;">
+                                    <div class="content" style="margin-top:-50px;margin-bottom:-50px;">
+                                        <div class="box">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="cta-btn">
+                                    <a href="#graphs" class="btn btn-outlined--white btn-with-icon btn-height-60">See graphs</a>
+                                    <!-- <p class="extra-info-text">No credit card required</p> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonial-section" id="graphs">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="section-title" style="margin-bottom: 80px;">
+                            <h2>Graphs</h2>
+                            <p {{ displayStatus }}>See state of the art memory analytics!</p>
+                            <!-- <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                            <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                            <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                            <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png"> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="section-title">
+                            <h4 style="margin-bottom: 10px;">Random Forest Regression</h4>
+                            <p>An advanced ensemble learning regression model which constructs a multitude of decision trees in order accurately reflect your change in memory!</p>
+                            <img src="data:image/jpeg;base64, {{ randomforest_img }}">
+                            <!--<img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                            <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                            <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png"> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="section-title">
+                            <h4 style="margin-bottom: 10px;">Support Vector Regression</h4>
+                            <p>The Support Vector Regression algorithm, based on the Support Vector Machine, is also effective at accurately portraying your change in memory!</p>
+                            <img src="data:image/jpeg;base64, {{ svr_img }}">
+                            <!--<img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                            <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                            <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png"> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <h4 style="margin-bottom: 10px;margin-top: 100px;">Support Vector Regression</h4>
+                            <p>The Support Vector Regression algorithm, based on the Support Vector Machine, is also effective at accurately portraying your change in memory!</p>
+                            <img src="data:image/jpeg;base64, {{ bargraph_img }}">
+                            <!--<img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                            <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png">
+                            <img src="https://luisvalesilva.com/datasimple/images/random_forests/max_depth2.png"> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="section-title">
+                    We designed and tested prototypes that helped identify pain points in the account
+                    creation process. Together, we shaped the new standard
+                </div> -->
+            </div>
+        </section>
             
 
         <section class="footer-section" style='margin-top: 160px;'>
@@ -211,6 +296,74 @@
     <script src="{{ url_for('static', filename='plugins/slick-1.8.1/slick.min.js') }}"></script>
     <script src="{{ url_for('static', filename='plugins/meanmenu/jquery.meanmenu.js') }}"></script>
     <script src="{{ url_for('static', filename='js/active.js') }}"></script>
+
+    <script>
+        $(function() {
+    
+            function filterPath(string) {
+                return string
+                .replace(/^\//,'')
+                .replace(/(index|default).[a-zA-Z]{3,4}$/,'')
+                .replace(/\/$/,'');
+            }
+    
+            var locationPath = filterPath(location.pathname);
+            var scrollElem = scrollableElement('html', 'body');
+    
+            // Any links with hash tags in them (can't do ^= because of fully qualified URL potential)
+            $('a[href*=#]').each(function() {
+    
+                // Ensure it's a same-page link
+                var thisPath = filterPath(this.pathname) || locationPath;
+                if (  locationPath == thisPath
+                    && (location.hostname == this.hostname || !this.hostname)
+                    && this.hash.replace(/#/,'') ) {
+    
+                        // Ensure target exists
+                        var $target = $(this.hash), target = this.hash;
+                        if (target) {
+    
+                            // Find location of target
+                            var targetOffset = $target.offset().top;
+                            $(this).click(function(event) {
+    
+                                // Prevent jump-down
+                                event.preventDefault();
+    
+                                // Animate to target
+                                $(scrollElem).animate({scrollTop: targetOffset}, 800, function() {
+    
+                                    // Set hash in URL after animation successful
+                                    location.hash = target;
+    
+                                });
+                            });
+                        }
+                }
+    
+            });
+    
+            // Use the first element that is "scrollable"  (cross-browser fix?)
+            function scrollableElement(els) {
+                for (var i = 0, argLength = arguments.length; i <argLength; i++) {
+                    var el = arguments[i],
+                    $scrollElement = $(el);
+                    if ($scrollElement.scrollTop()> 0) {
+                        return el;
+                    } else {
+                        $scrollElement.scrollTop(1);
+                        var isScrollable = $scrollElement.scrollTop()> 0;
+                        $scrollElement.scrollTop(0);
+                        if (isScrollable) {
+                            return el;
+                        }
+                    }
+                }
+                return [];
+            }
+    
+        });
+        </script>
 
 </body>
 
