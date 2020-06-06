@@ -4,10 +4,12 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import base64
+import io
 
-text = "I am trying out a new ice cream."
+import matplotlib
+matplotlib.use('agg')
 
-tokenized = sent_tokenize(text)
 # print(tokenized)
 
 def readCsv():
@@ -73,47 +75,77 @@ def process_content(original, new, scores, times):
         print(str(e))
 
 
-# readCsv()
-orig, new, sc, time = readCsv()
-cl1, cl2, cl3, score = process_content(orig, new, sc, time)
+def analyse():
+    orig, new, sc, time = readCsv()
+    cl1, cl2, cl3, score = process_content(orig, new, sc, time)
 
-print(score)
+    print(score)
 
-slope = []
+    slope = []
 
-x = np.array([k for i, j, k in cl1]).reshape(-1, 1)
-y = np.array([j for i, j, k in cl1]).reshape(-1, 1)
-plt.scatter(x, y)
-regressor = LinearRegression()
-regressor.fit(x, y)
-yval = regressor.predict(x)
-plt.plot(x, yval, color='red', linewidth=2)
-slope.append(regressor.coef_)
-plt.show()
+    figures = []
 
-x = np.array([k for i, j, k in cl2]).reshape(-1, 1)
-y = np.array([j for i, j, k in cl2]).reshape(-1, 1)
-plt.scatter(x, y)
-regressor = LinearRegression()
-regressor.fit(x, y)
-yval = regressor.predict(x)
-plt.plot(x, yval, color='red', linewidth=2)
-slope.append(regressor.coef_)
-plt.show()
+    x = np.array([k for i, j, k in cl1]).reshape(-1, 1)
+    y = np.array([j for i, j, k in cl1]).reshape(-1, 1)
+    plt.scatter(x, y)
+    regressor = LinearRegression()
+    regressor.fit(x, y)
+    yval = regressor.predict(x)
+    plt.title("Rate of forgetting proper nouns")
+    plt.ylabel("Memory Score")
+    plt.xlabel("Days")
+    plt.plot(x, yval, color='red', linewidth=2)
+    slope.append(regressor.coef_)
+    pic_IObytes = io.BytesIO()
+    plt.savefig(pic_IObytes,  format='png')
+    pic_IObytes.seek(0)
+    pic_hash = base64.b64encode(pic_IObytes.read())
+    figures.append(pic_hash)
+    # plt.show()
 
-x = np.array([k for i, j, k in cl3]).reshape(-1, 1)
-y = np.array([j for i, j, k in cl3]).reshape(-1, 1)
-plt.scatter(x, y)
-regressor = LinearRegression()
-regressor.fit(x, y)
-yval = regressor.predict(x)
-plt.plot(x, yval, color='red', linewidth=2)
-slope.append(regressor.coef_)
-plt.show()
+    x = np.array([k for i, j, k in cl2]).reshape(-1, 1)
+    y = np.array([j for i, j, k in cl2]).reshape(-1, 1)
+    plt.scatter(x, y)
+    regressor = LinearRegression()
+    regressor.fit(x, y)
+    yval = regressor.predict(x)
+    plt.plot(x, yval, color='red', linewidth=2)
+    plt.title("Rate of forgetting nouns")
+    plt.ylabel("Memory Score")
+    plt.xlabel("Days")
+    slope.append(regressor.coef_)
+    pic_IObytes = io.BytesIO()
+    plt.savefig(pic_IObytes,  format='png')
+    pic_IObytes.seek(0)
+    pic_hash = base64.b64encode(pic_IObytes.read())
+    figures.append(pic_hash)
+    # plt.show()
 
-descriptions = ["Proper Words", "Nouns", "Nouns"]
+    x = np.array([k for i, j, k in cl3]).reshape(-1, 1)
+    y = np.array([j for i, j, k in cl3]).reshape(-1, 1)
+    plt.scatter(x, y)
+    regressor = LinearRegression()
+    regressor.fit(x, y)
+    yval = regressor.predict(x)
+    plt.plot(x, yval, color='red', linewidth=2)
+    plt.title("Rate of forgetting nouns")
+    plt.ylabel("Memory Score")
+    plt.xlabel("Days")
+    slope.append(regressor.coef_)
+    pic_IObytes = io.BytesIO()
+    plt.savefig(pic_IObytes,  format='png')
+    pic_IObytes.seek(0)
+    pic_hash = base64.b64encode(pic_IObytes.read())
+    figures.append(pic_hash)
+    # plt.show()
 
-print("Your near-perfect memory score is " + str(score) +
-      "\nNot considering your near-perfect recallations, your average rate of forgetting is " + str((sum(slope)/3)[0][0]))
-print("You tend to forget " + descriptions[slope.index(min(slope))] +
-      " the most, forgetting it at a rate of " + str((min(slope))[0][0]))
+    descriptions = ["Proper Words", "Nouns", "Nouns"]
+
+    print("Your near-perfect memory score is " + str(score) +
+        "\nNot considering your near-perfect recallations, your average rate of forgetting is " + str((sum(slope)/3)[0][0]))
+    print("You tend to forget " + descriptions[slope.index(min(slope))] +
+        " the most, forgetting it at a rate of " + str((min(slope))[0][0]))
+    
+    return figures
+
+analyse()
