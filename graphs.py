@@ -7,16 +7,16 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Importing the dataset
-dataset = pd.read_csv('userdata.csv')
-x = dataset.iloc[:, 1:-1].values
-Y = dataset.iloc[:, -1].values
-X = []
-y = []
-for val in x:
-    y.append([float(val[0][1:-1])])
+# dataset = pd.read_csv('userdata.csv')
+# x = dataset.iloc[:, 1:-1].values
+# Y = dataset.iloc[:, -1].values
+# X = []
+# y = []
+# for val in x:
+#     y.append([float(val[0][1:-1])])
 
-for val in Y:
-    X.append([int(val[1:-1])])
+# for val in Y:
+#     X.append([int(val[1:-1])])
 
 def expected_value(scores):
     dic = {}
