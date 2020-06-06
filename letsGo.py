@@ -65,9 +65,9 @@ def process_content(original, new, scores, times):
                 good+=1
                 
         # print(important)
-        print(cluster1)
-        print(cluster2)
-        print(cluster3)
+        # print(cluster1)
+        # print(cluster2)
+        # print(cluster3)
 
         return cluster1, cluster2, cluster3, good/total
 
@@ -79,7 +79,7 @@ def analyse():
     orig, new, sc, time = readCsv()
     cl1, cl2, cl3, score = process_content(orig, new, sc, time)
 
-    print(score)
+    # print(score)
 
     slope = []
 
@@ -102,6 +102,7 @@ def analyse():
     pic_hash = base64.b64encode(pic_IObytes.read())
     figures.append(pic_hash)
     # plt.show()
+    plt.clf()
 
     x = np.array([k for i, j, k in cl2]).reshape(-1, 1)
     y = np.array([j for i, j, k in cl2]).reshape(-1, 1)
@@ -120,6 +121,7 @@ def analyse():
     pic_hash = base64.b64encode(pic_IObytes.read())
     figures.append(pic_hash)
     # plt.show()
+    plt.clf()
 
     x = np.array([k for i, j, k in cl3]).reshape(-1, 1)
     y = np.array([j for i, j, k in cl3]).reshape(-1, 1)
@@ -138,14 +140,21 @@ def analyse():
     pic_hash = base64.b64encode(pic_IObytes.read())
     figures.append(pic_hash)
     # plt.show()
+    plt.clf()
 
     descriptions = ["Proper Words", "Nouns", "Nouns"]
 
-    print("Your near-perfect memory score is " + str(score) +
-        "\nNot considering your near-perfect recallations, your average rate of forgetting is " + str((sum(slope)/3)[0][0]))
-    print("You tend to forget " + descriptions[slope.index(min(slope))] +
-        " the most, forgetting it at a rate of " + str((min(slope))[0][0]))
+    # print("Your near-perfect memory score is " + str(score) +
+    #     "\nNot considering your near-perfect recallations, your average rate of forgetting is " + str((sum(slope)/3)[0][0]))
+    # print("You tend to forget " + descriptions[slope.index(min(slope))] +
+    #     " the most, forgetting it at a rate of " + str((min(slope))[0][0]))
     
+    forget_rate = str(round(((sum(slope)/3)[0][0])*100, 1))
+    type_rate = "You tend to forget " + descriptions[slope.index(min(slope))] + " the most, forgetting it at a rate of " + str(round(((min(slope))[0][0])*100, 1))
+    perfect_rate = "You remembered approximately " + str(round(score*100, 1))
+    figures.append(perfect_rate)
+    figures.append(forget_rate) 
+    figures.append(type_rate)
     return figures
 
-analyse()
+# print(analyse()[1])

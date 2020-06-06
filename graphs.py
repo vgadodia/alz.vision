@@ -21,10 +21,10 @@ import pandas as pd
 def expected_value(scores):
     dic = {}
     for score in scores:
-        if score in dic:
-            dic[score] += 1
+        if score[0] in dic:
+            dic[score[0]] += 1
         else:
-            dic[score] = 1
+            dic[score[0]] = 1
 
     exp_val = 0
     LEN = len(scores)
@@ -61,6 +61,7 @@ def bar_graph(X, y):
 
     plt.xlabel("Time since memory uploaded (mins)")
     plt.ylabel("Average memory score")
+    plt.ylim(0, 1.1)
 
     plt.bar(x_axis, y_axis)
     # plt.show()
@@ -94,7 +95,7 @@ def random_forest(X, y):
     # plt.scatter(X, y, color='red')
     plt.plot(X_grid, regressor.predict(X_grid), color='blue')
     plt.title('Random Forest Regression')
-    plt.xlabel('Time since memory was uploaded (min)')
+    plt.xlabel('Time between upload and redescription (mins)')
     plt.ylabel('Memory Score (0-1)')
     plt.ylim(0, 1.1)
     # plt.show()
@@ -125,13 +126,78 @@ def svr(X, y):
 
     X_grid = np.arange(min(sc_X.inverse_transform(X)), max(sc_X.inverse_transform(X)), 0.1)
     X_grid = X_grid.reshape((len(X_grid), 1))
+    # print(X_grid)
     # plt.scatter(sc_X.inverse_transform(X), sc_y.inverse_transform(y), color = 'red')
     plt.plot(X_grid, sc_y.inverse_transform(regressor.predict(sc_X.transform(X_grid))), color = 'blue')
     plt.title('Support Vector Regression')
-    plt.xlabel('Time since memory was uploaded (mins)')
+    plt.xlabel('Time between upload and redescription (mins)')
     plt.ylabel('Memory score (0-1)')
     plt.ylim(0, 1.1)
     
+    # plt.show()
+    import base64
+    import io
+    my_stringIObytes = io.BytesIO()
+    plt.savefig(my_stringIObytes, format='jpg')
+    my_stringIObytes.seek(0)
+    my_base64_jpgData = base64.b64encode(my_stringIObytes.read())
+    plt.clf()
+    return my_base64_jpgData
+
+def svr_overtime(X, y):
+    import matplotlib
+    matplotlib.use('Agg')
+    from sklearn.preprocessing import StandardScaler
+    sc_X = StandardScaler()
+    sc_y = StandardScaler()
+    X = sc_X.fit_transform(X)
+    y = sc_y.fit_transform(y)
+
+    from sklearn.svm import SVR
+    regressor = SVR(kernel = 'rbf')
+    regressor.fit(X, y.ravel())
+
+    X_grid = np.arange(min(sc_X.inverse_transform(X)), max(sc_X.inverse_transform(X)), 0.1)
+    X_grid = X_grid.reshape((len(X_grid), 1))
+    # print(X_grid)
+    # plt.scatter(sc_X.inverse_transform(X), sc_y.inverse_transform(y), color = 'red')
+    plt.plot(X_grid, sc_y.inverse_transform(regressor.predict(sc_X.transform(X_grid))), color = 'blue')
+    plt.title('Support Vector Regression')
+    plt.xlabel('Memory Number (Chronological Order)')
+    plt.ylabel('Memory score (0-1)')
+    plt.ylim(0, 1.1)
+    
+    
+    # plt.show()
+    import base64
+    import io
+    my_stringIObytes = io.BytesIO()
+    plt.savefig(my_stringIObytes, format='jpg')
+    my_stringIObytes.seek(0)
+    my_base64_jpgData = base64.b64encode(my_stringIObytes.read())
+    plt.clf()
+    return my_base64_jpgData
+
+def rf_overtime(X, y):
+    import matplotlib
+    matplotlib.use('Agg')
+
+    X = np.array(X)
+    y = np.array(y)
+
+    # Training the Random Forest Regression model on the whole dataset
+    regressor = RandomForestRegressor(n_estimators=10, random_state=0)
+    regressor.fit(X, y.ravel())
+
+    # # Visualising the Random Forest Regression results (higher resolution)
+    X_grid = np.arange(min(X)[0], max(X)[0], 0.01)
+    X_grid = X_grid.reshape((len(X_grid), 1))
+    # plt.scatter(X, y, color='red')
+    plt.plot(X_grid, regressor.predict(X_grid), color='blue')
+    plt.title('Random Forest Regression')
+    plt.xlabel('Memory Number (Chronological Order)')
+    plt.ylabel('Memory Score (0-1)')
+    plt.ylim(0, 1.1)
     # plt.show()
     import base64
     import io
@@ -148,3 +214,11 @@ def svr(X, y):
 # print(svr(X, y))
 # print(bar_graph(X, y))
 # svr(X, )
+
+# y = [[1], [1]]
+# X = [[0.89], [0.78]]
+# print(svr(X, y))
+
+# X = [[1.0], [1.0], [0.7], [0.56]]
+# y = [[0], [0], [0], [0]]
+# print(svr(X, y))

@@ -16,7 +16,8 @@ from datetime import datetime
 import os
 import pathlib
 import hashlib
-from graphs import svr, bar_graph, random_forest
+from graphs import svr, bar_graph, random_forest, expected_value, svr_overtime, rf_overtime
+from letsGo import analyse
 
 with open("clienturl.txt", "r") as x:
     app = Flask(__name__)
@@ -229,32 +230,64 @@ def analytics():
         user = db.find_one_or_404({"email": EMAIL})["memories"]
         scores = []
         times = []
+        sentence = []
+        sentence2 = []
         for i in user:
             sco = []
             tim = []
+            sent = []
+            sent2 = []
             newsent = i["new sentences"]
             for j in newsent:
                 sco.append(j["score"])
                 tim.append(round((j["time"] - i["time"]).seconds/60))
+                sent.append(j["sentence"])
+                sent2.append(i["original sentence"])
             scores.append(sco)
             times.append(tim)
+            sentence.append(sent)
+            sentence2.append(sent2)
+        # jso = {"Scores" : scores, "Times" : times, "Old Sentence": sentence2, "New Sentence": sentence}
+        # df = pd.DataFrame(jso, columns=["Scores", "Times", "Old Sentence", "New Sentence"])
+        # df.to_csv("userdata.csv")
 
         # jso = {"Scores": scores, "Times": times}
         # df = pd.DataFrame(jso, columns=["Scores", "Times"])
         # df.to_csv("userdata.csv")
 
-        # print(scores)
-        # print(times)
+        print(scores)
+        print(times)
+
+        if len(scores) == 0 or len(scores) == 1:
+            return render_template('analyticsNone.html')
+
+        id_memory = [[i] for i in range(1, len(scores)+1)]
+        memory_vs_time = svr_overtime(id_memory, scores)
+        memory_vs_time = memory_vs_time.decode("utf-8")
+
+        memory_vs_time_rf = rf_overtime(id_memory, scores)
+        memory_vs_time_rf = memory_vs_time_rf.decode("utf-8")
+        
 
         svr_img = svr(times, scores)
         randomforest_img = random_forest(times, scores)
         bargraph_img = bar_graph(times, scores)
-
+        cluster_imgs = analyse()
+        exp_val = expected_value(scores)
+        cl1 = cluster_imgs[0].decode("utf-8")
+        cl2 = cluster_imgs[1].decode("utf-8")
+        cl3 = cluster_imgs[2].decode("utf-8")
+        perfect_rate = cluster_imgs[3]
+        forget_rate = cluster_imgs[4]
+        type_rate = cluster_imgs[5]
         svr_img = svr_img.decode("utf-8")
         randomforest_img = randomforest_img.decode("utf-8")
         bargraph_img = bargraph_img.decode("utf-8")
 
-        return render_template('analytics.html', displayStatus="hidden", svr_img=svr_img, randomforest_img=randomforest_img, bargraph_img=bargraph_img)
+        if len(scores) <= 10:
+            return render_template('analyticsLess.html', memory_vs_time_rf=memory_vs_time_rf, memory_vs_time=memory_vs_time, exp_val=exp_val, svr_img=svr_img, randomforest_img=randomforest_img, bargraph_img=bargraph_img)
+
+        return render_template('analytics.html', memory_vs_time_rf=memory_vs_time_rf, memory_vs_time=memory_vs_time, exp_val=exp_val, perfect_rate=perfect_rate, forget_rate=forget_rate, type_rate=type_rate, cl1=cl1, cl2=cl2, cl3=cl3, svr_img=svr_img, randomforest_img=randomforest_img, bargraph_img=bargraph_img)
     return render_template('analytics.html')
 
 
