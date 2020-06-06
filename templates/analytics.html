@@ -154,7 +154,7 @@
                             <div class="cta-content">
                                 <span class="title-small-text">You're overall memory score is</span>
                                 <h2>{{ exp_val }}%</h2>
-                                <p>Keep scrolling to see a detailled overview of your results!
+                                <p>Keep scrolling to see a detailed overview of your results!
                                 </p>
                                 <div class="container" style="margin-bottom:-120px;margin-top: -100px;">
                                     <div class="content" style="margin-top:-50px;margin-bottom:-50px;">
@@ -185,41 +185,60 @@
                     <div class="col-lg-12" >
                         <div class="section-title">
                             <h2 style="margin-top: -80px;">Graphs</h2>
-                            <p>We used 2 different machine learning algorithms below: Random Forest regression and Support Vector regression. The Random Forest algorithm takes into account even the slightest changes in memory scores while the Support Vector regression algorithm creates a broader overview, helping you get two diverse perspectives on your change in memory over time!</p>
+                            <p>We used Random Forest Regression and the Support Vector regression machine learning algorithms to create two different types of graphs. The first type displays your general change in memory score over time, and the second type shows your change in memory score over the time between you uploaded and redescribed particular memories.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <h3 style="margin-bottom: 30px;">Change in memory score over time</h3>
+                            <p>The 2 models below show your change in memory score vs time at different accuracies</p>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="section-title">
-                            <h4 style="margin-bottom: 30px;">Change in memory score over time</h4>
+                            <!-- <h4 style="margin-bottom: 30px;">Change in memory score over time</h4> -->
                             <!-- <p>Change in memory score over time</p> -->
                             <img src="data:image/jpeg;base64, {{ memory_vs_time_rf }}">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="section-title">
-                            <h4 style="margin-bottom: 30px;">Change in memory score over time</h4>
+                            <!-- <h4 style="margin-bottom: 30px;">Change in memory score over time</h4> -->
                             <!-- <p>Change in memory score over time</p>                             -->
                             <img src="data:image/jpeg;base64, {{ memory_vs_time }}">
                         </div>
                     </div>
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <!-- <h4 style="margin-bottom: 10px;">Bar Chart</h4> -->
+                            <!-- <p>The bar chart below calculates your mean memory score per minute and plots it on a minute by minute basis!</p> -->
+                            <img src="data:image/jpeg;base64, {{ bargraph_vs_time }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <h3 style="margin-bottom: 30px;margin-top:50px;">Change in memory score over time between upload and redescription</h3>
+                            <p>The 2 models below show your change in memory score vs time between the upload and redescription at different accuracies</p>
+                        </div>
+                    </div>
                     <div class="col-lg-6">
                         <div class="section-title">
-                            <h4 style="margin-bottom: 30px;">Change in memory score over time between upload and redescription</h4>
+                            <!-- <h4 style="margin-bottom: 30px;">Change in memory score over time between upload and redescription</h4> -->
                             <!-- <p>Change in memory score over time between upload and redescription</p> -->
                             <img src="data:image/jpeg;base64, {{ randomforest_img }}">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="section-title">
-                            <h4 style="margin-bottom: 30px;">Change in memory score over time between upload and redescription</h4>
+                            <!-- <h4 style="margin-bottom: 30px;">Change in memory score over time between upload and redescription</h4> -->
                             <!-- <p>Change in memory score over time between upload and redescription</p> -->
                             <img src="data:image/jpeg;base64, {{ svr_img }}">
                         </div>
                     </div>
                     <div class="col-lg-12">
                         <div class="section-title">
-                            <h4 style="margin-bottom: 10px;">Bar Chart</h4>
-                            <p>The bar chart below calculates your mean memory score per minute and plots it on a minute by minute basis!</p>
+                            <!-- <h4 style="margin-bottom: 10px;">Bar Chart</h4> -->
+                            <!-- <p>The bar chart below calculates your mean memory score per minute and plots it on a minute by minute basis!</p> -->
                             <img src="data:image/jpeg;base64, {{ bargraph_img }}">
                         </div>
                     </div>

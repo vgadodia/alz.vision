@@ -16,7 +16,7 @@ from datetime import datetime
 import os
 import pathlib
 import hashlib
-from graphs import svr, bar_graph, random_forest, expected_value, svr_overtime, rf_overtime
+from graphs import svr, bar_graph, random_forest, expected_value, svr_overtime, rf_overtime, bg_overtime
 from letsGo import analyse
 
 with open("clienturl.txt", "r") as x:
@@ -78,7 +78,7 @@ def register():
         name = request.form['name']
         username = request.form['email']
         password = request.form['password'].encode('utf-8')
-        print(name, username, password)
+        # print(name, username, password)
         x = db.find_one({"email": username})
         if x == None:
             user = {"name": name, "password": hashlib.sha224(
@@ -117,7 +117,7 @@ def logout():
     logoutStatus = "hidden"
     tryitoutStatus = ""
     welcomeStatus = "hidden"
-    print("Logging out")
+    # print("Logging out")
     return render_template('index.html', logoutStatus=logoutStatus, loginStatus=loginStatus, tryitoutStatus=tryitoutStatus, welcomeStatus=welcomeStatus, welcomeName=welcomeName)
 
 
@@ -139,8 +139,8 @@ def getupload():
         elif description is "":
             return render_template('upload.html', errorMessage="You must write a description")
         else:
-            print(description)
-            print(EMAIL)
+            # print(description)
+            # print(EMAIL)
             x = db.find_one_or_404({"email": EMAIL})
             client.save_file(EMAIL + memory.filename, memory)
             x["memories"].append({"original sentence": description, "file": EMAIL +
@@ -165,7 +165,7 @@ def redescribe():
     image = db.find_one_or_404({"email": EMAIL})["memories"]
     for memory in image:
         if len(memory["new sentences"]) == 0:
-            print(memory["file"])
+            # print(memory["file"])
             return render_template('redescribe.html', errorMessage="", image=url_for('file', filename=memory["file"]))
             # return client.send_file(NAME + memory["file"])
     # return render_template('redescription.html', image = url_for('file', filename = image[0]["file"]))
@@ -175,7 +175,7 @@ def redescribe():
 @app.route('/redescribe', methods=['GET', 'POST'])
 def getredescription():
     # print
-    print(request.method)
+    # print(request.method)
     if request.method == "POST":
         print("Enter POST")
         redescription = request.form['redescription']
@@ -183,14 +183,14 @@ def getredescription():
             image = db.find_one_or_404({"email": EMAIL})["memories"]
             for memory in image:
                 if len(memory["new sentences"]) == 0:
-                    print(memory["file"])
+                    # print(memory["file"])
                     return render_template('redescribe.html', errorMessage="You must write a description", image=url_for('file', filename=memory["file"]))
                     # return client.send_file(NAME + memory["file"])
             # return render_template('redescription.html', image = url_for('file', filename = image[0]["file"]))
             return render_template('noRedescriptions.html')
             # return render_template('redescribe.html', errorMessage="You must write a description")
         else:
-            print(redescription)
+            # print(redescription)
             user = db.find_one_or_404({"email": EMAIL})["memories"]
             for memory in user:
                 if len(memory["new sentences"]) == 0:
@@ -207,13 +207,13 @@ def getredescription():
             # return redirect("/")
             return redirect("/redescribe")
     else:
-        print("Enters this far.")
+        # print("Enters this far.")
         # image = db.find_one({"name": NAME})["memories"][0]["file"] # Access a random file
         # print(image)
         image = db.find_one_or_404({"email": EMAIL})["memories"]
         for memory in image:
             if len(memory["new sentences"]) == 0:
-                print(memory["file"])
+                # print(memory["file"])
                 return render_template('redescribe.html', errorMessage="", image=url_for('file', filename=memory["file"]))
                 # return client.send_file(NAME + memory["file"])
         # return render_template('redescription.html', image = url_for('file', filename = image[0]["file"]))
@@ -258,6 +258,18 @@ def analytics():
         print(scores)
         print(times)
 
+        temp = times[0][0]
+        flag = 0
+        for time in times:
+            if time[0] != temp:
+                flag = 1
+                break
+            
+        if flag == 0:
+            return render_template('analyticsNone.html') 
+
+
+
         if len(scores) == 0 or len(scores) == 1:
             return render_template('analyticsNone.html')
 
@@ -267,7 +279,9 @@ def analytics():
 
         memory_vs_time_rf = rf_overtime(id_memory, scores)
         memory_vs_time_rf = memory_vs_time_rf.decode("utf-8")
-        
+
+        bargraph_vs_time = bg_overtime(id_memory, scores)
+        bargraph_vs_time = bargraph_vs_time.decode("utf-8")
 
         svr_img = svr(times, scores)
         randomforest_img = random_forest(times, scores)
@@ -285,9 +299,9 @@ def analytics():
         bargraph_img = bargraph_img.decode("utf-8")
 
         if len(scores) <= 10:
-            return render_template('analyticsLess.html', memory_vs_time_rf=memory_vs_time_rf, memory_vs_time=memory_vs_time, exp_val=exp_val, svr_img=svr_img, randomforest_img=randomforest_img, bargraph_img=bargraph_img)
+            return render_template('analyticsLess.html', bargraph_vs_time=bargraph_vs_time, memory_vs_time_rf=memory_vs_time_rf, memory_vs_time=memory_vs_time, exp_val=exp_val, svr_img=svr_img, randomforest_img=randomforest_img, bargraph_img=bargraph_img)
 
-        return render_template('analytics.html', memory_vs_time_rf=memory_vs_time_rf, memory_vs_time=memory_vs_time, exp_val=exp_val, perfect_rate=perfect_rate, forget_rate=forget_rate, type_rate=type_rate, cl1=cl1, cl2=cl2, cl3=cl3, svr_img=svr_img, randomforest_img=randomforest_img, bargraph_img=bargraph_img)
+        return render_template('analytics.html', bargraph_vs_time=bargraph_vs_time, memory_vs_time_rf=memory_vs_time_rf, memory_vs_time=memory_vs_time, exp_val=exp_val, perfect_rate=perfect_rate, forget_rate=forget_rate, type_rate=type_rate, cl1=cl1, cl2=cl2, cl3=cl3, svr_img=svr_img, randomforest_img=randomforest_img, bargraph_img=bargraph_img)
     return render_template('analytics.html')
 
 
