@@ -247,9 +247,9 @@ def analytics():
             times.append(tim)
             sentence.append(sent)
             sentence2.append(sent2)
-        # jso = {"Scores" : scores, "Times" : times, "Old Sentence": sentence2, "New Sentence": sentence}
-        # df = pd.DataFrame(jso, columns=["Scores", "Times", "Old Sentence", "New Sentence"])
-        # df.to_csv("userdata.csv")
+        jso = {"Scores" : scores, "Times" : times, "Old Sentence": sentence2, "New Sentence": sentence}
+        df = pd.DataFrame(jso, columns=["Scores", "Times", "Old Sentence", "New Sentence"])
+        df.to_csv("userdata.csv")
 
         # jso = {"Scores": scores, "Times": times}
         # df = pd.DataFrame(jso, columns=["Scores", "Times"])
@@ -257,23 +257,23 @@ def analytics():
 
         print(scores)
         print(times)
-
-        temp = times[0][0]
-        flag = 0
-        for time in times:
-            if time[0] != temp:
-                flag = 1
-                break
-            
-        if flag == 0:
-            return render_template('analyticsNone.html') 
-
-
+        
 
         if len(scores) == 0 or len(scores) == 1:
             return render_template('analyticsNone.html')
 
+        # temp = times[0][0]
+        # flag = 0
+        # for time in times:
+        #     if time[0] != temp:
+        #         flag = 1
+        #         break
+            
+        # if flag == 0:
+        #     return render_template('analyticsNone.html') 
+
         id_memory = [[i] for i in range(1, len(scores)+1)]
+        # print(id_memory)
         memory_vs_time = svr_overtime(id_memory, scores)
         memory_vs_time = memory_vs_time.decode("utf-8")
 
@@ -286,20 +286,22 @@ def analytics():
         svr_img = svr(times, scores)
         randomforest_img = random_forest(times, scores)
         bargraph_img = bar_graph(times, scores)
-        cluster_imgs = analyse()
+
+        svr_img = svr_img.decode("utf-8")
+        randomforest_img = randomforest_img.decode("utf-8")
+        bargraph_img = bargraph_img.decode("utf-8")
         exp_val = expected_value(scores)
+
+        if len(scores) <= 10:
+            return render_template('analyticsLess.html', bargraph_vs_time=bargraph_vs_time, memory_vs_time_rf=memory_vs_time_rf, memory_vs_time=memory_vs_time, exp_val=exp_val, svr_img=svr_img, randomforest_img=randomforest_img, bargraph_img=bargraph_img)
+
+        cluster_imgs = analyse()
         cl1 = cluster_imgs[0].decode("utf-8")
         cl2 = cluster_imgs[1].decode("utf-8")
         cl3 = cluster_imgs[2].decode("utf-8")
         perfect_rate = cluster_imgs[3]
         forget_rate = cluster_imgs[4]
         type_rate = cluster_imgs[5]
-        svr_img = svr_img.decode("utf-8")
-        randomforest_img = randomforest_img.decode("utf-8")
-        bargraph_img = bargraph_img.decode("utf-8")
-
-        if len(scores) <= 10:
-            return render_template('analyticsLess.html', bargraph_vs_time=bargraph_vs_time, memory_vs_time_rf=memory_vs_time_rf, memory_vs_time=memory_vs_time, exp_val=exp_val, svr_img=svr_img, randomforest_img=randomforest_img, bargraph_img=bargraph_img)
 
         return render_template('analytics.html', bargraph_vs_time=bargraph_vs_time, memory_vs_time_rf=memory_vs_time_rf, memory_vs_time=memory_vs_time, exp_val=exp_val, perfect_rate=perfect_rate, forget_rate=forget_rate, type_rate=type_rate, cl1=cl1, cl2=cl2, cl3=cl3, svr_img=svr_img, randomforest_img=randomforest_img, bargraph_img=bargraph_img)
     return render_template('analytics.html')

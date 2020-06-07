@@ -265,4 +265,4 @@ def bg_overtime(X, y):
 
 # X = [[0], [1]]
 # y = [[1.0], [0.89]] 
-# print(svr(X, y))
+# print(svr_overtime(X, y))
